@@ -5,7 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Data
 @NoArgsConstructor
@@ -24,15 +29,18 @@ public class Usuario {
     private String email;
 
     @Column(nullable = false)
+    @JsonIgnore
     private String senha;
 
     @Enumerated(EnumType.STRING)
     private Papel papel;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
     private Departamento departamento;
 
     @OneToMany(mappedBy = "criador")
+    @JsonBackReference
     private List<Solicitacao> solicitacoes;
 
 }

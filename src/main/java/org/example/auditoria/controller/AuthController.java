@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -46,6 +47,7 @@ public class AuthController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return jwtUtils.generateToken(userDetails.getUsername());
     }
+    
     @PostMapping("/signup")
     public String registerUser(@RequestBody CreateUsuarioDTO user) {
         if (userRepository.existsByEmail(user.email())) {

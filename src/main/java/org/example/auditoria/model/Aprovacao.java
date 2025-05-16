@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,7 +24,7 @@ public class Aprovacao {
 
     private int nivel;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @Column(columnDefinition = "TIMESTAMP")
@@ -30,6 +33,7 @@ public class Aprovacao {
     private String comentario;
 
     @ManyToOne
+    @JsonBackReference
     private Solicitacao solicitacao;
 
     @ManyToOne

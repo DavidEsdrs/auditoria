@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +25,16 @@ public class Solicitacao {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Tipo tipo;
-    @Enumerated
+
+    @Enumerated(EnumType.STRING)
     private Status status;
+    
     private String descricao;
 
     @ManyToOne
+    @JsonManagedReference
     private Usuario criador;
 
     @ManyToOne
@@ -41,6 +48,7 @@ public class Solicitacao {
     private LocalDateTime ultimaEdicao;
 
     @OneToMany(mappedBy = "solicitacao", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Aprovacao> aprovacoes = new ArrayList<>();
 
 }

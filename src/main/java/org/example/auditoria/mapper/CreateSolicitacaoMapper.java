@@ -2,10 +2,9 @@ package org.example.auditoria.mapper;
 
 import org.example.auditoria.dto.CreateSolicitacaoDTO;
 import org.example.auditoria.model.*;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +16,9 @@ public class CreateSolicitacaoMapper {
                                 Usuario gestor,
                                 Usuario financeiro) {
         Solicitacao solicitacao = new Solicitacao();
+        LocalDateTime now = LocalDateTime.now();
+        solicitacao.setCriacao(now);
+        solicitacao.setUltimaEdicao(now);
         solicitacao.setTipo(dto.tipo());
         solicitacao.setStatus(Status.PENDENTE);
         solicitacao.setDescricao(dto.descricao());
@@ -36,7 +38,7 @@ public class CreateSolicitacaoMapper {
         aprovacaoFinanceiro.setSolicitacao(solicitacao);
 
         solicitacao.setAprovacoes(new ArrayList<>(List.of(
-                aprovacaoGestor, aprovacaoFinanceiro
+            aprovacaoGestor, aprovacaoFinanceiro
         )));
 
         return solicitacao;

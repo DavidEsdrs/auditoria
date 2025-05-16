@@ -2,9 +2,9 @@ package org.example.auditoria.controller;
 
 import org.example.auditoria.dto.CreateDepartamentoDTO;
 import org.example.auditoria.model.Departamento;
-import org.example.auditoria.repository.DepartamentoRepository;
 import org.example.auditoria.service.DepartamentoService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,9 +17,10 @@ public class DepartamentoController {
     public DepartamentoController(DepartamentoService departamentoService) {
         this.departamentoService = departamentoService;
     }
-
+    
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<Departamento> createDepartamento(CreateDepartamentoDTO departamentoDTO) {
+    public ResponseEntity<Departamento> createDepartamento(@RequestBody CreateDepartamentoDTO departamentoDTO) {
         return ResponseEntity.ok(departamentoService.createDepartamento(departamentoDTO));
     }
 
@@ -33,6 +34,7 @@ public class DepartamentoController {
         return ResponseEntity.ok(departamentoService.getDepartamentoById(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteDepartamentoById(@PathVariable Long id) {
         departamentoService.deleteDepartamento(id);

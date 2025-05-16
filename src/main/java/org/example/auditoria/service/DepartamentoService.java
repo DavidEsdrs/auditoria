@@ -7,6 +7,7 @@ import org.example.auditoria.repository.DepartamentoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DepartamentoService {
@@ -19,6 +20,12 @@ public class DepartamentoService {
     public Departamento createDepartamento(CreateDepartamentoDTO departamentoDTO) {
         Departamento departamento = new Departamento();
         departamento.setNome(departamentoDTO.nome());
+
+        Optional<Departamento> departamentoInDb = departamentoRepository.findByNome(departamentoDTO.nome());
+        if(departamentoInDb.isPresent()) {
+            throw new RuntimeException("Já existe um departamento com esse nome");
+        }
+
         departamentoRepository.save(departamento);
         return departamento;
     }
